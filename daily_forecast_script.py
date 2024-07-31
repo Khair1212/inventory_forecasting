@@ -281,7 +281,8 @@ def plot_all(daily_df, weekly_df, monthly_df, selected_item):
 
 
 if __name__ =='__main__':
-    data = pd.read_csv('transaction_data_with_seasonality_100k.csv', parse_dates=['transaction_date']) 
+    data = pd.read_csv('transaction_data_with_seasonality_100k.csv') 
+    data['transaction_date'] = pd.to_datetime(data['transaction_date']) 
     data.set_index('transaction_date', inplace=True)
     daily_data = resampled_data(data, 'D')
     weekly_data = resampled_data(data, 'W')
