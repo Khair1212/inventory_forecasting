@@ -281,7 +281,7 @@ def plot_all(daily_df, weekly_df, monthly_df, selected_item):
 
 
 if __name__ =='__main__':
-    data = pd.read_csv('transaction_data_with_seasonality_100k.csv') 
+    data = pd.read_csv('https://raw.githubusercontent.com/Khair1212/inventory_forecasting/main/transaction_data_with_seasonality_100K.csv') 
     data['transaction_date'] = pd.to_datetime(data['transaction_date']) 
     data.set_index('transaction_date', inplace=True)
     daily_data = resampled_data(data, 'D')
