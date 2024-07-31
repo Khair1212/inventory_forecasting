@@ -1,7 +1,7 @@
 pandas
 matplotlib
 scikit-learn
-numpy
 prophet
 streamlit
 plotly
+numpy == 1.24.0
