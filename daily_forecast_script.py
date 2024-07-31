@@ -3,7 +3,7 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, r2_score
 import numpy as np
-# import streamlit as st
+import streamlit as st
 import time
 from prophet import Prophet
 import plotly.graph_objects as go
@@ -130,155 +130,155 @@ def flatten_data(item_data):
 #         plt.ylabel("Quantity")
 #         plt.show()
 
-def plot_all(daily_df, weekly_df, monthly_df, rows_per_page=20):
-    """
-    Plots daily, weekly, and monthly forecasts and data for each item with table pagination.
+# def plot_all(daily_df, weekly_df, monthly_df, rows_per_page=20):
+#     """
+#     Plots daily, weekly, and monthly forecasts and data for each item with table pagination.
 
-    Args:
-        daily_df (pd.DataFrame): DataFrame containing daily data.
-        weekly_df (pd.DataFrame): DataFrame containing weekly data.
-        monthly_df (pd.DataFrame): DataFrame containing monthly data.
-        rows_per_page (int): Number of rows to display per page in tables.
-    """
+#     Args:
+#         daily_df (pd.DataFrame): DataFrame containing daily data.
+#         weekly_df (pd.DataFrame): DataFrame containing weekly data.
+#         monthly_df (pd.DataFrame): DataFrame containing monthly data.
+#         rows_per_page (int): Number of rows to display per page in tables.
+#     """
 
-    unique_items = daily_df['item_id'].unique()
+#     unique_items = daily_df['item_id'].unique()
 
-    for item in unique_items:
-        item_daily_df = daily_df[daily_df['item_id'] == item]
-        item_weekly_df = weekly_df[weekly_df['item_id'] == item]
-        item_monthly_df = monthly_df[monthly_df['item_id'] == item]
+#     for item in unique_items:
+#         item_daily_df = daily_df[daily_df['item_id'] == item]
+#         item_weekly_df = weekly_df[weekly_df['item_id'] == item]
+#         item_monthly_df = monthly_df[monthly_df['item_id'] == item]
 
-        # Calculate number of pages for each table
-        num_pages_daily = np.ceil(len(item_daily_df) / rows_per_page)
-        num_pages_weekly = np.ceil(len(item_weekly_df) / rows_per_page)
-        num_pages_monthly = np.ceil(len(item_monthly_df) / rows_per_page)
+#         # Calculate number of pages for each table
+#         num_pages_daily = np.ceil(len(item_daily_df) / rows_per_page)
+#         num_pages_weekly = np.ceil(len(item_weekly_df) / rows_per_page)
+#         num_pages_monthly = np.ceil(len(item_monthly_df) / rows_per_page)
 
-        # Find the maximum number of pages across all tables
-        max_pages = max(num_pages_daily, num_pages_weekly, num_pages_monthly)
+#         # Find the maximum number of pages across all tables
+#         max_pages = max(num_pages_daily, num_pages_weekly, num_pages_monthly)
 
-        for page in range(int(max_pages)):
-            fig, axs = plt.subplots(2, 3, figsize=(18, 12))
-            fig.suptitle(f"Forecast and Data for ITEM: {item} - Page {page + 1}", fontsize=16)
+#         for page in range(int(max_pages)):
+#             fig, axs = plt.subplots(2, 3, figsize=(18, 12))
+#             fig.suptitle(f"Forecast and Data for ITEM: {item} - Page {page + 1}", fontsize=16)
 
-            # Daily plot
-            axs[0, 0].plot(item_daily_df['date'], item_daily_df['test_data'], color='blue', label='Actual')
-            axs[0, 0].plot(item_daily_df['date'], item_daily_df['forecast'], color='red', label='Forecast')
-            axs[0, 0].set_title("Daily Forecast")
-            axs[0, 0].set_xlabel("Date")
-            axs[0, 0].set_ylabel("Quantity")
-            axs[0, 0].legend()
-            plt.xticks(rotation=45)
+#             # Daily plot
+#             axs[0, 0].plot(item_daily_df['date'], item_daily_df['test_data'], color='blue', label='Actual')
+#             axs[0, 0].plot(item_daily_df['date'], item_daily_df['forecast'], color='red', label='Forecast')
+#             axs[0, 0].set_title("Daily Forecast")
+#             axs[0, 0].set_xlabel("Date")
+#             axs[0, 0].set_ylabel("Quantity")
+#             axs[0, 0].legend()
+#             plt.xticks(rotation=45)
 
-            # Weekly plot
-            axs[0, 1].plot(item_weekly_df['date'], item_weekly_df['test_data'], color='blue', label='Actual')
-            axs[0, 1].plot(item_weekly_df['date'], item_weekly_df['forecast'], color='red', label='Forecast')
-            axs[0, 1].set_title("Weekly Forecast")
-            axs[0, 1].set_xlabel("Date")
-            axs[0, 1].set_ylabel("Quantity")
-            axs[0, 1].legend()
-            plt.xticks(rotation=45)
+#             # Weekly plot
+#             axs[0, 1].plot(item_weekly_df['date'], item_weekly_df['test_data'], color='blue', label='Actual')
+#             axs[0, 1].plot(item_weekly_df['date'], item_weekly_df['forecast'], color='red', label='Forecast')
+#             axs[0, 1].set_title("Weekly Forecast")
+#             axs[0, 1].set_xlabel("Date")
+#             axs[0, 1].set_ylabel("Quantity")
+#             axs[0, 1].legend()
+#             plt.xticks(rotation=45)
 
-            # Monthly plot
-            axs[0, 2].plot(item_monthly_df['date'], item_monthly_df['test_data'], color='blue', label='Actual')
-            axs[0, 2].plot(item_monthly_df['date'], item_monthly_df['forecast'], color='red', label='Forecast')
-            axs[0, 2].set_title("Monthly Forecast")
-            axs[0, 2].set_xlabel("Date")
-            axs[0, 2].set_ylabel("Quantity")
-            axs[0, 2].legend()
-            plt.xticks(rotation=45)
+#             # Monthly plot
+#             axs[0, 2].plot(item_monthly_df['date'], item_monthly_df['test_data'], color='blue', label='Actual')
+#             axs[0, 2].plot(item_monthly_df['date'], item_monthly_df['forecast'], color='red', label='Forecast')
+#             axs[0, 2].set_title("Monthly Forecast")
+#             axs[0, 2].set_xlabel("Date")
+#             axs[0, 2].set_ylabel("Quantity")
+#             axs[0, 2].legend()
+#             plt.xticks(rotation=45)
 
-            # Daily table
-            start_row = page * rows_per_page
-            end_row = min(start_row + rows_per_page, len(item_daily_df))
-            axs[1, 0].axis('off')
-            table = axs[1, 0].table(cellText=item_daily_df.iloc[start_row:end_row].values,
-                                   colLabels=item_daily_df.columns,
-                                   cellLoc='center',
-                                   loc='center')
-            table.auto_set_font_size(False)
-            table.set_fontsize(8)
-            table.scale(1, 1.2)
-            axs[1, 0].set_title(f"Daily Data - Page {page + 1}")
+#             # Daily table
+#             start_row = page * rows_per_page
+#             end_row = min(start_row + rows_per_page, len(item_daily_df))
+#             axs[1, 0].axis('off')
+#             table = axs[1, 0].table(cellText=item_daily_df.iloc[start_row:end_row].values,
+#                                    colLabels=item_daily_df.columns,
+#                                    cellLoc='center',
+#                                    loc='center')
+#             table.auto_set_font_size(False)
+#             table.set_fontsize(8)
+#             table.scale(1, 1.2)
+#             axs[1, 0].set_title(f"Daily Data - Page {page + 1}")
 
-            # Weekly table
-            start_row = page * rows_per_page
-            end_row = min(start_row + rows_per_page, len(item_weekly_df))
-            axs[1, 1].axis('off')
-            table = axs[1, 1].table(cellText=item_weekly_df.iloc[start_row:end_row].values,
-                                   colLabels=item_weekly_df.columns,
-                                   cellLoc='center',
-                                   loc='center')
-            table.auto_set_font_size(False)
-            table.set_fontsize(8)
-            table.scale(1, 1.2)
-            axs[1, 1].set_title(f"Weekly Data - Page {page + 1}")
+#             # Weekly table
+#             start_row = page * rows_per_page
+#             end_row = min(start_row + rows_per_page, len(item_weekly_df))
+#             axs[1, 1].axis('off')
+#             table = axs[1, 1].table(cellText=item_weekly_df.iloc[start_row:end_row].values,
+#                                    colLabels=item_weekly_df.columns,
+#                                    cellLoc='center',
+#                                    loc='center')
+#             table.auto_set_font_size(False)
+#             table.set_fontsize(8)
+#             table.scale(1, 1.2)
+#             axs[1, 1].set_title(f"Weekly Data - Page {page + 1}")
 
-            # Monthly table
-            start_row = page * rows_per_page
-            end_row = min(start_row + rows_per_page, len(item_monthly_df))
-            axs[1, 2].axis('off')
-            table = axs[1, 2].table(cellText=item_monthly_df.iloc[start_row:end_row].values,
-                                   colLabels=item_monthly_df.columns,
-                                   cellLoc='center',
-                                   loc='center')
-            table.auto_set_font_size(False)
-            table.set_fontsize(8)
-            table.scale(1, 1.2)
-            axs[1, 2].set_title(f"Monthly Data - Page {page + 1}")
+#             # Monthly table
+#             start_row = page * rows_per_page
+#             end_row = min(start_row + rows_per_page, len(item_monthly_df))
+#             axs[1, 2].axis('off')
+#             table = axs[1, 2].table(cellText=item_monthly_df.iloc[start_row:end_row].values,
+#                                    colLabels=item_monthly_df.columns,
+#                                    cellLoc='center',
+#                                    loc='center')
+#             table.auto_set_font_size(False)
+#             table.set_fontsize(8)
+#             table.scale(1, 1.2)
+#             axs[1, 2].set_title(f"Monthly Data - Page {page + 1}")
 
-            plt.tight_layout()
-            plt.show()
-
-
+#             plt.tight_layout()
+#             plt.show()
 
 
-# def plot_all(daily_df, weekly_df, monthly_df, selected_item):
-#     fig = make_subplots(
-#         rows=2, cols=3,
-#         specs=[[{'type': 'scatter'}, {'type': 'scatter'}, {'type': 'scatter'}],
-#                [{'type': 'table'}, {'type': 'table'}, {'type': 'table'}]],
-#         subplot_titles=(f"ITEM: {selected_item} Daily Forecast", f"ITEM: {selected_item} Weekly Forecast", f"ITEM: {selected_item} Monthly Forecast",
-#                         f"Daily Data for ITEM: {selected_item}", f"Weekly Data for ITEM: {selected_item}", f"Monthly Data for ITEM: {selected_item}")
-#     )
 
-#     # Daily plot
-#     item_daily_df = daily_df[daily_df['item_id'] == selected_item]
-#     fig.add_trace(go.Scatter(x=item_daily_df['date'], y=item_daily_df['test_data'], mode='lines', name='Actual', line=dict(color='blue')), row=1, col=1)
-#     fig.add_trace(go.Scatter(x=item_daily_df['date'], y=item_daily_df['forecast'], mode='lines', name='Forecast', line=dict(color='red')), row=1, col=1)
 
-#     # Weekly plot
-#     item_weekly_df = weekly_df[weekly_df['item_id'] == selected_item]
-#     fig.add_trace(go.Scatter(x=item_weekly_df['date'], y=item_weekly_df['test_data'], mode='lines', name='Actual', line=dict(color='blue')), row=1, col=2)
-#     fig.add_trace(go.Scatter(x=item_weekly_df['date'], y=item_weekly_df['forecast'], mode='lines', name='Forecast', line=dict(color='red')), row=1, col=2)
+def plot_all(daily_df, weekly_df, monthly_df, selected_item):
+    fig = make_subplots(
+        rows=2, cols=3,
+        specs=[[{'type': 'scatter'}, {'type': 'scatter'}, {'type': 'scatter'}],
+               [{'type': 'table'}, {'type': 'table'}, {'type': 'table'}]],
+        subplot_titles=(f"ITEM: {selected_item} Daily Forecast", f"ITEM: {selected_item} Weekly Forecast", f"ITEM: {selected_item} Monthly Forecast",
+                        f"Daily Data for ITEM: {selected_item}", f"Weekly Data for ITEM: {selected_item}", f"Monthly Data for ITEM: {selected_item}")
+    )
 
-#     # Monthly plot
-#     item_monthly_df = monthly_df[monthly_df['item_id'] == selected_item]
-#     fig.add_trace(go.Scatter(x=item_monthly_df['date'], y=item_monthly_df['test_data'], mode='lines', name='Actual', line=dict(color='blue')), row=1, col=3)
-#     fig.add_trace(go.Scatter(x=item_monthly_df['date'], y=item_monthly_df['forecast'], mode='lines', name='Forecast', line=dict(color='red')), row=1, col=3)
+    # Daily plot
+    item_daily_df = daily_df[daily_df['item_id'] == selected_item]
+    fig.add_trace(go.Scatter(x=item_daily_df['date'], y=item_daily_df['test_data'], mode='lines', name='Actual', line=dict(color='blue')), row=1, col=1)
+    fig.add_trace(go.Scatter(x=item_daily_df['date'], y=item_daily_df['forecast'], mode='lines', name='Forecast', line=dict(color='red')), row=1, col=1)
 
-#     # Daily table
-#     fig.add_trace(go.Table(
-#         header=dict(values=list(item_daily_df.columns), fill_color='paleturquoise', align='left'),
-#         cells=dict(values=[item_daily_df[col] for col in item_daily_df.columns], fill_color='lavender', align='left')
-#     ), row=2, col=1)
+    # Weekly plot
+    item_weekly_df = weekly_df[weekly_df['item_id'] == selected_item]
+    fig.add_trace(go.Scatter(x=item_weekly_df['date'], y=item_weekly_df['test_data'], mode='lines', name='Actual', line=dict(color='blue')), row=1, col=2)
+    fig.add_trace(go.Scatter(x=item_weekly_df['date'], y=item_weekly_df['forecast'], mode='lines', name='Forecast', line=dict(color='red')), row=1, col=2)
 
-#     # Weekly table
-#     fig.add_trace(go.Table(
-#         header=dict(values=list(item_weekly_df.columns), fill_color='paleturquoise', align='left'),
-#         cells=dict(values=[item_weekly_df[col] for col in item_weekly_df.columns], fill_color='lavender', align='left')
-#     ), row=2, col=2)
+    # Monthly plot
+    item_monthly_df = monthly_df[monthly_df['item_id'] == selected_item]
+    fig.add_trace(go.Scatter(x=item_monthly_df['date'], y=item_monthly_df['test_data'], mode='lines', name='Actual', line=dict(color='blue')), row=1, col=3)
+    fig.add_trace(go.Scatter(x=item_monthly_df['date'], y=item_monthly_df['forecast'], mode='lines', name='Forecast', line=dict(color='red')), row=1, col=3)
 
-#     # Monthly table
-#     fig.add_trace(go.Table(
-#         header=dict(values=list(item_monthly_df.columns), fill_color='paleturquoise', align='left'),
-#         cells=dict(values=[item_monthly_df[col] for col in item_monthly_df.columns], fill_color='lavender', align='left')
-#     ), row=2, col=3)
+    # Daily table
+    fig.add_trace(go.Table(
+        header=dict(values=list(item_daily_df.columns), fill_color='paleturquoise', align='left'),
+        cells=dict(values=[item_daily_df[col] for col in item_daily_df.columns], fill_color='lavender', align='left')
+    ), row=2, col=1)
 
-#     # Update layout for better spacing
-#     fig.update_layout(height=800, showlegend=False, title_text=f"Forecast and Data for ITEM: {selected_item}")
-#     fig.update_xaxes(tickangle=45)  # Rotate x-axis labels for all subplots
+    # Weekly table
+    fig.add_trace(go.Table(
+        header=dict(values=list(item_weekly_df.columns), fill_color='paleturquoise', align='left'),
+        cells=dict(values=[item_weekly_df[col] for col in item_weekly_df.columns], fill_color='lavender', align='left')
+    ), row=2, col=2)
 
-#     return fig
+    # Monthly table
+    fig.add_trace(go.Table(
+        header=dict(values=list(item_monthly_df.columns), fill_color='paleturquoise', align='left'),
+        cells=dict(values=[item_monthly_df[col] for col in item_monthly_df.columns], fill_color='lavender', align='left')
+    ), row=2, col=3)
+
+    # Update layout for better spacing
+    fig.update_layout(height=800, showlegend=False, title_text=f"Forecast and Data for ITEM: {selected_item}")
+    fig.update_xaxes(tickangle=45)  # Rotate x-axis labels for all subplots
+
+    return fig
         
 
 
@@ -393,15 +393,15 @@ if __name__ =='__main__':
     # End the timer
     end_time = time.time()
 
-    # st.title('Item Forecasting Dashboard')
+    st.title('Item Forecasting Dashboard')
 
     # Item selection
     unique_items = daily_flatten_data['item_id'].unique()
-    # selected_item = st.selectbox('Select an Item ID:', unique_items)
+    selected_item = st.selectbox('Select an Item ID:', unique_items)
 
     # Plot data
-    plot_all(daily_flatten_data, weekly_flatten_data, monthly_flatten_data)
-    # st.plotly_chart(fig)
+    fig = plot_all(daily_flatten_data, weekly_flatten_data, monthly_flatten_data, selected_item)
+    st.plotly_chart(fig)
     # Calculate the elapsed time
     runtime = end_time - start_time
 
