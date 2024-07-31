@@ -1,5 +1,4 @@
 import pandas as pd
-from statsmodels.tsa.statespace.sarimax import SARIMAX
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, r2_score
 import numpy as np
